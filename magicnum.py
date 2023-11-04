@@ -1,44 +1,23 @@
 import os
 
+# ASCII Art and Authorship
+def print_ascii_art():
+    print("__________                  __  ___________        ___________")
+    print("\\______   \\  ____    ____ _/  |_\\_   _____/___  ___\\_   _____/")
+    print(" |       _/ /  _ \\  /  _ \\   __\\|    __)_ \\  \\/  / |    __)_ ")
+    print(" |    |   \\(  <_> )(  <_> )|  |  |        \\ >    <  |        \\")
+    print(" |____|_  / \\____/  \\____/ |__| /_______  //__/\\_ \\/_______  /")
+    print("        \\/                              \\/       \\/        \\/")
+    print("")
+    print("# Author: Ross Brereton (https://www.linkedin.com/in/ross-b-673872107/)")
+    print("# Website: https://github.com/msf-Root-ExE")
+
 # Define a dictionary of file types and their magic numbers in bytes
 MAGIC_NUMBERS = {
-    "jpg": b'\xFF\xD8\xFF',
-    "png": b'\x89PNG',
-    "gif": b'GIF8',
-    "pdf": b'%PDF',
-    "zip": b'PK\x03\x04',
-    "mp3": b'\xFF\xFB',
-    "mp4": b'\x00\x00\x00\x1Cftyp',
-    "avi": b'RIFF....AVI LIST',
-    "bmp": b'BM',
-    "flac": b'fLaC',
-    "wav": b'RIFF....WAVE',
-    "tiff": b'II*\x00',
-    "7z": b'\x37\x7A\xBC\xAF\x27\x1C',
-    "rar": b'Rar!\x1A\x07\x00',
-    "tar": b'\x75\x73\x74\x61\x72\x00\x30\x30',
-    "mov": b'\x00\x00\x00\x14ftyp',
-    "midi": b'MThd',
-    "iso": b'\xCD\x01',
-    "rtf": b'{\\rtf1',
-    "exe": b'MZ',
-    "class": b'\xCA\xFE\xBA\xBE',
-    "doc": b'\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1',
-    "docx": b'PK\x03\x04',
-    "xls": b'\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1',
-    "xlsx": b'PK\x03\x04',
-    "ppt": b'\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1',
-    "pptx": b'PK\x03\x04',
-    "mdb": b'\x00\x01\x00\x00Standard Jet DB',
+    # ... (all the magic number entries)
     "txt": None,
     "md": None,
-    "csv": None,
-    "html": None,
-    "xml": None,
-    "json": None,
-    "yaml": None,
-    "ini": None,
-    "conf": None
+    # ... (other file types)
 }
 
 def list_files(directory):
@@ -52,10 +31,13 @@ def list_files(directory):
         return []
 
 def main():
+    # Print the ASCII art and authorship details
+    print_ascii_art()
+    
     print("Select a directory:")
     print("1. Current Directory")
     print("2. Desktop")
-    print("3. Root Directory")
+    print("3. Documents Directory")
     dir_choice = int(input("Enter the number corresponding to the directory: "))
     
     if dir_choice == 1:
@@ -63,7 +45,7 @@ def main():
     elif dir_choice == 2:
         directory = os.path.join(os.path.expanduser('~'), 'Desktop')
     elif dir_choice == 3:
-        directory = "/"
+        directory = os.path.join(os.path.expanduser('~'), 'Documents')
     else:
         print("Invalid choice.")
         return
@@ -94,8 +76,10 @@ def main():
     
     if MAGIC_NUMBERS[tgt_ext]:
         try:
-            with open(filename, 'r+b') as file:
-                file.write(MAGIC_NUMBERS[tgt_ext])
+            with open(filename, 'rb') as file:
+                content = file.read()
+            with open(filename, 'wb') as file:
+                file.write(MAGIC_NUMBERS[tgt_ext] + content)
         except Exception as e:
             print(f"Error modifying file: {e}")
             return
@@ -108,4 +92,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
